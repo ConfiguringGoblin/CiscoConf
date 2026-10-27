@@ -1,0 +1,50 @@
+configure terminal
+
+hostname [Hostname]
+interface BVI1
+ip add [IPv4_Address] [Subnet_Mask]
+no shutdown
+exit
+ip default-gateway [Default_Gateway]
+
+dot11 ssid [SSID Name]
+authentication open
+authentication key-management wpa version 2
+wpa-psk ascii 0 [Password]
+guest-mode
+exit
+
+interface Dot11Radio0
+encryption mode ciphers aes-ccm
+ssid [SSID Name]
+no shutdown
+exit
+interface Dot11Radio1
+encryption mode ciphers aes-ccm
+ssid [SSID Name]
+no shutdown
+exit
+
+interface Gi0
+no shutdown
+exit
+
+enable secret [Password]
+
+Ip domain-name [DomainName]
+
+line vty [Lines]
+password [Password]
+transport input ssh
+login local
+exit
+
+service password-encryption
+
+username admin privilege 15 secret [Password]
+crypto key generate rsa general-keys modulus 2048
+ip ssh version 2
+
+banner motd #
+[Banner]
+#
