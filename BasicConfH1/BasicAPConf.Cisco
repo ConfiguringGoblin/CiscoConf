@@ -46,5 +46,6 @@ crypto key generate rsa general-keys modulus 2048
 ip ssh version 2
 
 banner motd #
-[Banner]
+[BannerHere]
 #
+
