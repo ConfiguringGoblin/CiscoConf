@@ -28,8 +28,23 @@ banner motd #
 #
 
 int Vlan [VLAN_ID]
+name [Vlan Description]
 ip addr [IPv4 addr] [Subnet_Mask]
 no shutdown
+
+interface [interface_name]
+description access
+switchport mode [mode]
+switchport access vlan [VLAN_ID]
+
+interface [interface_name]
+switchport mode trunk
+switchport nonegotiate 
+switchport trunk native vlan [VLAN_ID]
+switchport trunk allowed vlan [VLAN_IDs]
+
+
+//for older switches use switch port encapsulation dot1q
 
 //Set the speed of a port and duplex mode.
 interface [interface_name]
