@@ -55,6 +55,12 @@ int loopback [Loopback_ID]
 ip addr [IPv4] [Subnet_Mask]
 exit
 
+int [interface_name.subinterface]
+description Router to Switch with INTER-VLAN routing
+encapsulation dot1q [VLAN_ID]
+ip address [IPv4] [Subnet_Mask]
+
+
 access-list [ACL list id] permit any
 ip nat inside source list [ACL list id] interface [Interface pointing to WAN] overload
 
