@@ -1,0 +1,40 @@
+ena
+conf t 
+
+hostname Sw1
+no ip domain-lookup
+Ip domain-name Sw1F.local
+
+enable secret class
+
+line console 0
+password cisco
+login
+
+line vty 0 15
+password cisco
+transport input ssh | telnet
+login local
+exit
+
+service password-encryption
+
+username ciscouser privilege 15 secret cisco
+crypto key generate rsa general-keys modulus 2048
+ip ssh version 2
+
+banner motd #
+veryyyy kooolll hello, we winning son!
+#
+
+interface vlan 99
+description Management VLAN
+ip addr 192.168.1.2 255.255.255.0
+ipv6 address 2001:db8:acad:1::2/64
+no shutdown
+
+ip default-gateway 192.168.1.1
+
+sdm prefer dual-ipv4-and-ipv6 default 
+
+end
