@@ -1,11 +1,15 @@
 ena
 conf t 
 
-hostname Sw1
+hostname A1-4001
 no ip domain-lookup
-Ip domain-name Sw1F.local
+Ip domain-name POD71.local
 
 enable secret class
+
+ipv6 unicast-routing
+
+sdm prefer dual-ipv4-and-ipv6 default
 
 line console 0
 password cisco
@@ -13,7 +17,7 @@ login
 
 line vty 0 15
 password cisco
-transport input ssh | telnet
+transport input all
 login local
 exit
 
@@ -34,7 +38,5 @@ ipv6 address 2001:db8:acad:1::2/64
 no shutdown
 
 ip default-gateway 192.168.1.1
-
-sdm prefer dual-ipv4-and-ipv6 default 
 
 end
