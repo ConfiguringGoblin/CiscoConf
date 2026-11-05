@@ -39,7 +39,7 @@ switchport access vlan [VLAN_ID]
 
 interface [interface_name]
 description portfast
-portfast  
+spanning-tree portfast 
 //portfast is for access ports only since it enbables bpdu guard if it is enabled in the STP protocol and other portfast features
 //you can enbale "spanning-tree portfast bpduguard default" as a global command to enable bpdu guard on all access ports with portfast enabled. If you want to enable it on a specific port, use "spanning-tree bpduguard enable" under the interface configuration mode.
 
