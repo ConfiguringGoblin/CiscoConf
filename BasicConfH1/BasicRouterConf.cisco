@@ -58,13 +58,13 @@ exit
 int [interface_name.subinterface]
 description Router to Switch with INTER-VLAN routing
 encapsulation dot1q [VLAN_ID]
-ip address [IPv4] [Subnet_Mask]
+ip addr [IPv4] [Subnet_Mask]
 
 
 access-list [ACL list id] permit any
 ip nat inside source list [ACL list id] interface [Interface pointing to WAN] overload
 
-ip route [Destination_Network] [Subnet_Mask] [Next_Hop_IP]
+ip rout [Destination_Network] [Subnet_Mask] [Next_Hop_IP]
 
 ip dhcp excluded-address [Excluded_IP_Range]
 ip dhcp pool [Pool_Name]
