@@ -1,0 +1,69 @@
+enable
+configure terminal
+hostname Sw1
+no ip domain-lookup
+
+Ip domain-name POD71.local
+banner motd #
+LABS/3-6-2LAB
+#
+
+line console 0
+password cisco
+login
+
+enable secret cisco
+
+line vty 0 15
+password cisco
+transport input ssh
+login local
+exit
+
+service password-encryption
+
+username ciscouser privilege 15 secret cisco
+crypto key generate rsa general-keys modulus 2048
+ip ssh version 2
+
+interface vlan 10
+name Management
+ip address 192.168.10.11 255.255.255.0
+no shutdown
+
+interface vlan 20
+name Sales
+ip address 192.168.20.11 255.255.255.0
+no shutdown
+
+interface vlan 30
+name Operations
+ip address 192.168.30.11 255.255.255.0
+no shutdown
+
+interface vlan 999
+name ParkingLot
+no shutdown
+
+interface vlan 1000
+name Native
+no shutdown
+
+interface range fastEthernet 0/2 - 5, fastEthernet 0/7 - 24, gigabitEthernet 0/1-2
+description Parking Lot
+switchport access vlan 999
+no shutdown
+
+interface fastEthernet 0/6
+description Sales
+switchport mode access
+switchport access vlan 20
+spanning-tree bpduguard
+no shutdown
+
+interface fastEthernet 0/1
+description Trunk to Sw2
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30
+switchport trunk native vlan 1000
+no shutdown
