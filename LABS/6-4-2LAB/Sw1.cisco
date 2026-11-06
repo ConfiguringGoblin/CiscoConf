@@ -30,26 +30,39 @@ spanning-tree portfast bpduguard default
 errdisable recovery cause bpduguard
 errdisable recovery interval 400
 
-interface range fastEthernet 0/1 - 24
-switchport mode access
-switchport access vlan 999
-
 interface vlan 10
 description Management
 ip address 192.168.10.11 255.255.255.0
 no shutdown
 
+vlan 10
+name Management
+exit
+
 interface vlan 20
 description Clients
 no shutdown
+exit
+
+vlan 20
+name Clients
+exit
 
 interface vlan 999
 description ParkingLot
 no shutdown
 
+vlan 999
+name Parking_Lot
+exit
+
 interface vlan 1000
 description Native
 no shutdown
+
+vlan 1000
+name Native_
+exit
 
 interface fastEthernet 0/6
 switchport access vlan 20
@@ -66,12 +79,3 @@ channel-group 1 mode desirable
 no shutdown
 
 exit
-
-
-end
-
-wr
-reload
-delete flash:vlan.dat
-erase startup-config
-reload
