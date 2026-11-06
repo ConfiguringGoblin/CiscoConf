@@ -1,0 +1,83 @@
+enable
+configure terminal
+
+hostname Sw2
+no ip domain-lookup
+domain-name POD71Sw2.local
+
+banner motd #
+LABS/4.2.8LAB
+#
+
+line console 0
+password cisco
+login
+
+line vty 0 15
+password cisco
+transport input ssh
+login local
+
+exit
+
+clock timezone CET 1
+
+service password-encryption
+
+enable secret cisco
+
+username ciscouser privilege 15 secret cisco
+crypto key generate rsa general-keys modulus 2048
+ip ssh version 2
+
+spanning-tree portfast bpduguard default
+errdisable recovery cause bpduguard
+errdisable recovery interval 400
+
+switchport port-security
+
+interface vlan 3
+name Management
+ip address 192.168.3.12 255.255.255.0
+no shutdown
+
+vlan 4
+name Operations
+no shutdown
+
+vlan 7
+name ParkingLot
+no shutdown
+
+vlan 8
+name Native
+no shutdown
+
+interface range fastEthernet 0/1 - 24, gigabitEthernet 0/1-2
+switchport mode access
+switchport access vlan 7
+shutdown
+
+
+interface fastEthernet 0/1
+description Trunk to Sw1
+switchport mode trunk
+switchport trunk allowed vlan 3,4
+switchport trunk native vlan 8
+switchport nonnegotiate
+no switchport bpduguard
+no switchport portfast
+no shutdown
+
+interface fastEthernet 0/18
+description Access port to PC-B
+switchport access vlan 4
+switchport port-security maximum 2
+switchport port-security violation restrict
+no shutdown
+
+ip default-gateway 192.168.3.1
+
+end
+
+wr
