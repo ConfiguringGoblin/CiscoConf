@@ -66,8 +66,9 @@ ip nat inside source list [ACL list id] interface [Interface pointing to WAN] ov
 
 ip rout [Destination_Network] [Subnet_Mask] [Next_Hop_IP]
 
-ip dhcp excluded-address [Excluded_IP_Range]
+
 ip dhcp pool [Pool_Name]
+ip dhcp excluded-address [Excluded_IP_Range]
 network [Network] [Subnet_Mask]
 default-router [Default_Gateway]
 dns-server [DNS_Server]
