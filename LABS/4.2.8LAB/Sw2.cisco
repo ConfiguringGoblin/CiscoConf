@@ -34,7 +34,6 @@ spanning-tree portfast bpduguard default
 errdisable recovery cause bpduguard
 errdisable recovery interval 400
 
-switchport port-security
 
 interface vlan 3
 name Management
