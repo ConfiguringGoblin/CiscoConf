@@ -1,0 +1,9 @@
+wr era
+
+delete vlan.dat
+
+confirm
+
+reload
+
+confirm
