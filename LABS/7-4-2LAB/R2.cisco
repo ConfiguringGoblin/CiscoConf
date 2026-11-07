@@ -33,9 +33,10 @@ no shutdown
 int gi0/0/1
 description Link to LAN
 ip address 172.168.1.1 255.255.255.0
+ip helper-address 10.0.0.1
 no shutdown
 exit 
 
 ip route 0.0.0.0 0.0.0.0 10.0.0.1
-ip helper-address 10.0.0.1
+
 
