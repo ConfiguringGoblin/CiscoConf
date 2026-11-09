@@ -106,6 +106,7 @@ no shutdown
 exit
 
 int ran fa0/21-22
+no switchport access vlan 1000
 switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
@@ -114,6 +115,7 @@ no shutdown
 exit
 
 int ran fa0/23-24
+no switchport access vlan 1000
 switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99

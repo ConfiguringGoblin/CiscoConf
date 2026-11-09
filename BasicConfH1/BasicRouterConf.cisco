@@ -64,11 +64,10 @@ ip addr [IPv4] [Subnet_Mask]
 access-list [ACL list id] permit any
 ip nat inside source list [ACL list id] interface [Interface pointing to WAN] overload
 
-ip rout [Destination_Network] [Subnet_Mask] [Next_Hop_IP]
+ip rout [Destination_Network] [Subnet_Mask] [Router interface] [Next_Hop_IP]
 
-
-ip dhcp pool [Pool_Name]
 ip dhcp excluded-address [Excluded_IP_Range]
+ip dhcp pool [Pool_Name]
 network [Network] [Subnet_Mask]
 default-router [Default_Gateway]
 dns-server [DNS_Server]
