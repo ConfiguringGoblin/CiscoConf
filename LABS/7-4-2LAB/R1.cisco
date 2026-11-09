@@ -1,0 +1,64 @@
+enable 
+configure terminal
+
+hostname R1
+no ip domain-lookup
+Ip domain-name POD71R1.local
+
+line console 0
+password cisco
+login
+
+line vty 0 15
+password cisco
+transport input ssh
+login local
+exit
+
+service password-encryption
+
+username ciscouser privilege 15 secret cisco
+crypto key generate rsa general-keys modulus 2048
+ip ssh version 2
+
+enable secret class
+
+clock timezone CET 1
+
+int gi0/0/0
+ip address 10.0.0.1 255.255.255.252
+no shutdown
+
+int gi0/0/1
+no shutdown
+
+int gi0/0/1.100
+description Clients
+ip address 192.168.100.1 255.255.255.0
+encapsulation dot1Q 100
+
+int gi0/0/1.200
+description Management
+ip address 192.168.200.1 255.255.255.0
+encapsulation dot1q 200
+
+int gi0/0/1.1000
+description Native_Vlan
+encapsulation dot1q 1000
+exit
+
+ip dhcp excluded-address 192.168.100.1 - 192.168.100.10
+ip dhcp pool LinkToLANDHCPPool
+network 192.168.100.0 255.255.255.0
+default-router 192.168.100.1
+exit
+
+ip dhcp excluded-address 172.168.1.1 - 172.168.1.10
+ip dhcp pool LinkToR2DHCPPool
+network 172.168.1.0 255.255.255.0
+default-router 172.168.1.1
+exit
+
+service dhcp
+
+ip route 0.0.0.0 0.0.0.0 10.0.0.2
