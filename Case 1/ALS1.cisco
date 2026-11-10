@@ -1,6 +1,5 @@
 enable
 configure terminal
-ipv6 unicast-routing
 
 hostname ALS1
 no ip domain-lookup
@@ -65,7 +64,6 @@ exit
 
 int vlan 99
 ip add 192.168.99.6 255.255.255.0
-ipv6 add 2001:db8:acad:99::6
 exit
 
 
@@ -129,4 +127,3 @@ exit
 
 
 ip default-gateway 192.168.99.1
-ipv6 route ::/0 2001:db8:acad:99::1
