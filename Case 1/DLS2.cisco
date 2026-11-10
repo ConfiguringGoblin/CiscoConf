@@ -1,6 +1,9 @@
 enable
 configure terminal
 
+! =========================================
+! BASIC DEVICE CONFIGURATION
+! =========================================
 hostname DLS2
 no ip domain-lookup
 Ip domain-name POD71-DLS2.local
@@ -32,6 +35,10 @@ No unauthorized access!
 
 spanning-tree portfast bpduguard default
 
+
+! =========================================
+! VLAN config
+! =========================================
 vlan 10
 name Administration
 exit
@@ -63,45 +70,59 @@ exit
 spanning-tree vlan 30,99 root primary
 spanning-tree vlan 10,20,40 root secondary
 
+
+! =========================================
+! Management interface
+! =========================================
 int vlan 99
 ip add 192.168.99.5 255.255.255.0
 exit
 
+
+! =========================================
+! Close all interfaces
+! =========================================
 int ran fa0/1 - 24
 switchport mode access
 switchport access vlan 1000
 shutdown
 exit
 
-
-int ran fa0/21-23
+! =========================================
+! Trunk to R3
+! =========================================
+int ran fa0/23
 no switchport access vlan 1000
 switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
-description Link to DLS1.
+description Link to R3.
+switchport nonegotiate
 no shutdown
 exit
 
+! =========================================
+! Configure trunk pots and etherchannels to other switches.
+! =========================================
 int ran fa0/21-22
+channel-group 2 mode desirable
+no switchport access vlan 1000
 description Link to ALS1.
 exit
 
-int ran fa0/23
-description R1.
+int ran gi0/1-2
+channel-group 3 mode desirable
+no switchport access vlan 1000
+description Link to DLS1.
 exit
 
-int ran gi0/1-2
+int ran port-channel 2-3
 no switchport access vlan 1000
 switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
-description Link to DLS1.
+switchport nonegotiate
 no shutdown
-exit
-
-int ran fa0/21-22
-channel-group 3 mode desirable
 exit
 
 

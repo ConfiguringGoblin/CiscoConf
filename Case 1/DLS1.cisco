@@ -1,6 +1,10 @@
 enable
 configure terminal
 
+
+! =========================================
+! BASIC DEVICE CONFIGURATION
+! =========================================
 hostname DLS1
 no ip domain-lookup
 Ip domain-name POD71-DLS1.local
@@ -32,6 +36,10 @@ No unauthorized access!
 
 spanning-tree portfast bpduguard default
 
+
+! =========================================
+! VLAN config
+! =========================================
 vlan 10
 name Administration
 exit
@@ -63,10 +71,19 @@ exit
 spanning-tree vlan 10,20,40 root primary
 spanning-tree vlan 30,99 root secondary
 
+
+! =========================================
+! Management port
+! =========================================
 int vlan 99
 ip add 192.168.99.4 255.255.255.0
+description Management SVI.
 exit
 
+
+! =========================================
+! Close all interfaces
+! =========================================
 int ran fa0/1 - 24
 switchport mode access
 switchport access vlan 1000
@@ -74,34 +91,51 @@ shutdown
 exit
 
 
-int ran fa0/21-23
+! =========================================
+! Trunk port to R2
+! =========================================
+int ran fa0/23
 no switchport access vlan 1000
 switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
-description Link to DLS2.
+description R2.
+switchport nonegotiate
 no shutdown
 exit
 
+
+! =========================================
+! Configure trunk ports and etherchannels, to other switches.
+! =========================================
 int ran fa0/21-22
+channel-group 1 mode desirable
+no switchport access vlan 1000
 description Link to ALS1.
 exit
 
-int ran fa0/23
-description R2.
+int ran gi0/1-2 
+channel-group 3 mode desirable
+no switchport access vlan 1000
+description Link to DLS2.
 exit
 
-int ran gi0/1-2
+int ran port-channel 1
 no switchport access vlan 1000
 switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
-description Link to DLS2.
+switchport nonegotiate
 no shutdown
 exit
 
-int ran fa0/21-22
-channel-group 3 mode desirable
+int ran port-channel 3
+no switchport access vlan 1000
+switchport mode trunk
+switchport trunk native vlan 999
+switchport trunk allowed vlan 10,20,30,40,99
+switchport nonegotiate
+no shutdown
 exit
 
 

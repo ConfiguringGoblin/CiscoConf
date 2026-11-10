@@ -1,6 +1,9 @@
 enable
 configure terminal
 
+! =========================================
+! BASIC DEVICE CONFIGURATION
+! =========================================
 hostname ALS1
 no ip domain-lookup
 Ip domain-name POD71-ALS1.local
@@ -32,6 +35,10 @@ No unauthorized access!
 
 spanning-tree portfast bpduguard default
 
+
+! =========================================
+! VLAN config
+! =========================================
 vlan 10
 name Administration
 exit
@@ -61,12 +68,18 @@ name Blackhole
 exit
 
 
-
+! =========================================
+! Management interface
+! =========================================
 int vlan 99
 ip add 192.168.99.6 255.255.255.0
+description Management SVI.
 exit
 
 
+! =========================================
+! Close all interfaces
+! =========================================
 int ran gi0/0
 switchport mode access
 switchport access vlan 1000
@@ -86,7 +99,9 @@ shutdown
 exit
 
 
-
+! =========================================
+! Configure access interfaces
+! =========================================
 int gi1/0/13
 switchport mode access
 switchport access vlan 10
@@ -115,28 +130,33 @@ description Link to Drift og NOC VLAN.
 no shutdown
 exit
 
+
+! =========================================
+! Configure trunk ports and etherchannels
+! =========================================
 int ran gi1/0/21-22
+channel-group 1 mode desirable
 no switchport access vlan 1000
-switchport mode trunk
-switchport trunk native vlan 999
-switchport trunk allowed vlan 10,20,30,40,99
 description Link to DLS1.
-no shutdown
 exit
 
 int ran gi1/0/23-24
+channel-group 2 mode desirable
 no switchport access vlan 1000
+description Link to DLS2.
+exit
+
+int ran port-channel 1-2
 switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
-description Link to DLS2.
+switchport nonegotiate
 no shutdown
-exit
 
-int ran fa0/21-24
-channel-group 3 mode desirable
-exit
 
+! =========================================
+! Configure DHCP snooping, port security and DAI
+! =========================================
 ip dhcp snooping
 ip dhcp snooping vlan 10,20,30,40
 ip arp inspection vlan 10,20,30,40
