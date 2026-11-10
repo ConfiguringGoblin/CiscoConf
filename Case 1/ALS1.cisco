@@ -137,5 +137,34 @@ int ran fa0/21-24
 channel-group 3 mode desirable
 exit
 
+ip dhcp snooping
+ip dhcp snooping vlan 10,20,30,40
+ip arp inspection vlan 10,20,30,40
+ip arp inspection validate src-mac
+ip arp inspection validate dst-mac
+ip arp inspection validate ip
+no ip dhcp snooping information option
+
+int ran gi1/0/1 - 20
+switchport port-security
+switchport port-security maximum 5
+switchport port-security mac-address sticky
+switchport port-security violation restrict
+ip dhcp snooping limit rate 6
+exit
+
+int ran gi1/1/1 - 4
+switchport port-security
+switchport port-security maximum 5
+switchport port-security mac-address sticky
+switchport port-security violation restrict
+ip dhcp snooping limit rate 6
+exit
+
+int ran gi1/0/21 - 24
+ip dhcp snooping trust
+ip arp inspection trust
+exit
+
 
 ip default-gateway 192.168.99.1
