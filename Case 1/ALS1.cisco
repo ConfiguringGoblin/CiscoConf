@@ -135,15 +135,25 @@ exit
 ! Configure trunk ports and etherchannels
 ! =========================================
 int ran gi1/0/21-22
-channel-group 1 mode desirable
 no switchport access vlan 1000
+switchport mode trunk
+switchport trunk native vlan 999
+switchport trunk allowed vlan 10,20,30,40,99
+switchport nonegotiate
+channel-group 1 mode desirable
 description Link to DLS1.
+no shutdown
 exit
 
 int ran gi1/0/23-24
-channel-group 2 mode desirable
 no switchport access vlan 1000
+switchport mode trunk
+switchport trunk native vlan 999
+switchport trunk allowed vlan 10,20,30,40,99
+switchport nonegotiate
+channel-group 2 mode desirable
 description Link to DLS2.
+no shutdown
 exit
 
 int ran port-channel 1-2
@@ -152,6 +162,7 @@ switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
 switchport nonegotiate
 no shutdown
+exit
 
 
 ! =========================================
@@ -181,7 +192,7 @@ switchport port-security violation restrict
 ip dhcp snooping limit rate 6
 exit
 
-int ran gi1/0/21 - 24
+int ran port-channel 1-2
 ip dhcp snooping trust
 ip arp inspection trust
 exit

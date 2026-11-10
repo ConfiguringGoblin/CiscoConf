@@ -105,19 +105,28 @@ exit
 ! Configure trunk pots and etherchannels to other switches.
 ! =========================================
 int ran fa0/21-22
-channel-group 2 mode desirable
 no switchport access vlan 1000
+switchport mode trunk
+switchport trunk native vlan 999
+switchport trunk allowed vlan 10,20,30,40,99
+switchport nonegotiate
+channel-group 2 mode desirable
 description Link to ALS1.
+no shutdown
 exit
 
 int ran gi0/1-2
-channel-group 3 mode desirable
 no switchport access vlan 1000
+switchport mode trunk
+switchport trunk native vlan 999
+switchport trunk allowed vlan 10,20,30,40,99
+switchport nonegotiate
+channel-group 3 mode desirable
 description Link to DLS1.
+no shutdown
 exit
 
 int ran port-channel 2-3
-no switchport access vlan 1000
 switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
