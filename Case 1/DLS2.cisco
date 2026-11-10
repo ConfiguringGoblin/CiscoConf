@@ -5,21 +5,21 @@ hostname DLS2
 no ip domain-lookup
 Ip domain-name POD71-DLS2.local
 
-enable secret 4
+enable secret 0 4
 
 line console 0
-password 4
+password 0 4
 login
 
 line vty 0 15
-password 4
+password 0 4
 transport input ssh
 login local
 exit
 
 service password-encryption
 
-username admin privilege 15 secret 4
+username admin privilege 15 secret 0 4
 crypto key generate rsa general-keys modulus 2048
 ip ssh version 2
 
