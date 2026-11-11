@@ -80,6 +80,8 @@ ip add 192.168.99.4 255.255.255.0
 description Management SVI.
 exit
 
+ip default-gateway 192.168.99.1
+
 
 ! =========================================
 ! Close all interfaces
@@ -106,37 +108,46 @@ exit
 
 
 ! =========================================
-! Configure trunk ports and etherchannels, to other switches.
+! Link to ALS1
 ! =========================================
 int ran fa0/21-22
+switchport mode trunk
+switchport trunk native vlan 999
+switchport trunk allowed vlan 10,20,30,40,99
 channel-group 1 mode desirable
 no switchport access vlan 1000
 description Link to ALS1.
 exit
 
-int ran gi0/1-2 
-channel-group 3 mode desirable
-no switchport access vlan 1000
-description Link to DLS2.
-exit
-
 int ran port-channel 1
 no switchport access vlan 1000
+description Link to ALS1.
 switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
 switchport nonegotiate
-no shutdown
+exit
+
+
+
+! =========================================
+! Link to DLS2
+! =========================================
+int ran gi0/1-2 
+description Link to DLS2.
+switchport mode trunk
+switchport trunk native vlan 999
+switchport trunk allowed vlan 10,20,30,40,99
+switchport nonegotiate
+channel-group 3 mode desirable
+no switchport access vlan 1000
 exit
 
 int ran port-channel 3
 no switchport access vlan 1000
+description Link to DLS2.
 switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
 switchport nonegotiate
-no shutdown
 exit
-
-
-ip default-gateway 192.168.99.1

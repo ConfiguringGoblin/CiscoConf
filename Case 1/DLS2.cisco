@@ -1,6 +1,7 @@
 enable
 configure terminal
 
+
 ! =========================================
 ! BASIC DEVICE CONFIGURATION
 ! =========================================
@@ -29,7 +30,7 @@ ip ssh version 2
 clock timezone CET 1
 
 banner motd #
-Distribution Layer Switch 2.
+Distribution Layer Switch 1.
 No unauthorized access!
 #
 
@@ -67,16 +68,19 @@ vlan 1000
 name Blackhole
 exit
 
-spanning-tree vlan 30,99 root primary
-spanning-tree vlan 10,20,40 root secondary
+spanning-tree vlan 10,20,40 root primary
+spanning-tree vlan 30,99 root secondary
 
 
 ! =========================================
-! Management interface
+! Management port
 ! =========================================
 int vlan 99
 ip add 192.168.99.5 255.255.255.0
+description Management SVI.
 exit
+
+ip default-gateway 192.168.99.1
 
 
 ! =========================================
@@ -88,42 +92,62 @@ switchport access vlan 1000
 shutdown
 exit
 
+
 ! =========================================
-! Trunk to R3
+! Trunk port to R3
 ! =========================================
 int ran fa0/23
 no switchport access vlan 1000
 switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
-description Link to R3.
+description R3.
 switchport nonegotiate
 no shutdown
 exit
 
+
 ! =========================================
-! Configure trunk pots and etherchannels to other switches.
+! Link to ALS1
 ! =========================================
 int ran fa0/21-22
+switchport mode trunk
+switchport trunk native vlan 999
+switchport trunk allowed vlan 10,20,30,40,99
 channel-group 2 mode desirable
 no switchport access vlan 1000
 description Link to ALS1.
 exit
 
-int ran gi0/1-2
-channel-group 3 mode desirable
+int ran port-channel 2
 no switchport access vlan 1000
-description Link to DLS1.
-exit
-
-int ran port-channel 2-3
-no switchport access vlan 1000
+description Link to ALS1.
 switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
 switchport nonegotiate
-no shutdown
 exit
 
 
-ip default-gateway 192.168.99.1
+
+! =========================================
+! Link to DLS1
+! =========================================
+int ran gi0/1-2 
+description Link to DLS1.
+switchport mode trunk
+switchport trunk native vlan 999
+switchport trunk allowed vlan 10,20,30,40,99
+switchport nonegotiate
+channel-group 3 mode desirable
+no switchport access vlan 1000
+exit
+
+int ran port-channel 3
+no switchport access vlan 1000
+description Link to DLS2.
+switchport mode trunk
+switchport trunk native vlan 999
+switchport trunk allowed vlan 10,20,30,40,99
+switchport nonegotiate
+exit

@@ -76,13 +76,12 @@ ip add 192.168.99.6 255.255.255.0
 description Management SVI.
 exit
 
+ip default-gateway 192.168.99.1
 
 ! =========================================
 ! Close all interfaces
 ! =========================================
 int ran gi0/0
-switchport mode access
-switchport access vlan 1000
 shutdown
 exit
 
@@ -100,6 +99,46 @@ exit
 
 
 ! =========================================
+! DLS1 link
+! =========================================
+int ran gi1/0/21-22
+channel-group 1 mode desirable
+no switchport access vlan 1000
+description Link to DLS1.
+switchport mode trunk
+switchport trunk native vlan 999
+switchport trunk allowed vlan 10,20,30,40,99
+exit
+
+int port-channel 1
+switchport mode trunk
+switchport trunk native vlan 999
+switchport trunk allowed vlan 10,20,30,40,99
+switchport nonegotiate
+description Link to DLS1.
+exit
+
+! =========================================
+! DLS2 link
+! =========================================
+int ran gi1/0/23-24
+channel-group 2 mode desirable
+no switchport access vlan 1000
+description Link to DLS2.
+switchport mode trunk
+switchport trunk native vlan 999
+switchport trunk allowed vlan 10,20,30,40,99
+exit
+
+int port-channel 2
+switchport mode trunk
+switchport trunk native vlan 999
+switchport trunk allowed vlan 10,20,30,40,99
+switchport nonegotiate
+exit
+
+
+! =========================================
 ! Configure access interfaces
 ! =========================================
 int gi1/0/13
@@ -107,6 +146,7 @@ switchport mode access
 switchport access vlan 10
 description Link to Administration VLAN.
 no shutdown
+switchport nonegotiate
 exit
 
 int gi1/0/15
@@ -114,6 +154,7 @@ switchport mode access
 switchport access vlan 20
 description Link to Salg VLAN.
 no shutdown
+switchport nonegotiate
 exit
 
 int gi1/0/17
@@ -121,6 +162,7 @@ switchport mode access
 switchport access vlan 30
 description Link to IT VLAN.
 no shutdown
+switchport nonegotiate
 exit
 
 int gi1/0/19
@@ -128,49 +170,21 @@ switchport mode access
 switchport access vlan 40
 description Link to Drift og NOC VLAN.
 no shutdown
-exit
-
-
-! =========================================
-! Configure trunk ports and etherchannels
-! =========================================
-int ran gi1/0/21-22
-channel-group 1 mode desirable
-no switchport access vlan 1000
-description Link to DLS1.
-exit
-
-int ran gi1/0/23-24
-channel-group 2 mode desirable
-no switchport access vlan 1000
-description Link to DLS2.
-exit
-
-int ran port-channel 1-2
-switchport mode trunk
-switchport trunk native vlan 999
-switchport trunk allowed vlan 10,20,30,40,99
 switchport nonegotiate
-no shutdown
+exit
 
 
 ! =========================================
-! Configure DHCP snooping, port security and DAI
+! Port security
 ! =========================================
-ip dhcp snooping
-ip dhcp snooping vlan 10,20,30,40
-ip arp inspection vlan 10,20,30,40
-ip arp inspection validate src-mac
-ip arp inspection validate dst-mac
-ip arp inspection validate ip
-no ip dhcp snooping information option
-
 int ran gi1/0/1 - 20
 switchport port-security
 switchport port-security maximum 5
 switchport port-security mac-address sticky
 switchport port-security violation restrict
 ip dhcp snooping limit rate 6
+spanning-tree portfast
+spanning-tree bpduguard enable
 exit
 
 int ran gi1/1/1 - 4
@@ -179,6 +193,20 @@ switchport port-security maximum 5
 switchport port-security mac-address sticky
 switchport port-security violation restrict
 ip dhcp snooping limit rate 6
+spanning-tree portfast
+spanning-tree bpduguard enable
+exit
+
+
+! =========================================
+! DHCP snooping
+! =========================================
+ip dhcp snooping
+ip dhcp snooping vlan 10,20,30,40
+no ip dhcp snooping information option
+
+int ran port-channel 1-2
+ip dhcp snooping trust
 exit
 
 int ran gi1/0/21 - 24
@@ -186,5 +214,19 @@ ip dhcp snooping trust
 ip arp inspection trust
 exit
 
+! =========================================
+! DAI
+! =========================================
+ip arp inspection vlan 10,20,30,40
+ip arp inspection validate src-mac
+ip arp inspection validate dst-mac
+ip arp inspection validate ip
+no ip dhcp snooping information option
 
-ip default-gateway 192.168.99.1
+int ran port-channel 1-2
+ip arp inspection trust
+exit
+
+
+
+
