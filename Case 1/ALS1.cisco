@@ -106,7 +106,7 @@ switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
 switchport nonegotiate
-description Link to DLS1.
+description Etherchannel to DLS1.
 exit
 
 
@@ -125,6 +125,7 @@ switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
 switchport nonegotiate
+description Etherchannel to DLS2.
 exit
 
 
