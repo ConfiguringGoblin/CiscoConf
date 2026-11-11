@@ -13,7 +13,7 @@ No unauthorized access!
 no ip domain-lookup
 Ip domain-name POD71R1.local
 
-line console 0 4
+line console 0
 password 4
 login
 
@@ -87,6 +87,6 @@ exit
 
 Service dhcp
 
-ip route 192.168.0.0 255.255.0.0 Gi0/0/1 10.0.0.2 5
-ip route 192.168.0.0 255.255.0.0 Gi0/0/2 10.0.0.6 10
+ip route 192.168.0.0 255.255.0.0 Gi0/0/1 10.0.0.2
+ip route 192.168.0.0 255.255.0.0 Gi0/0/2 10.0.0.6
 ip route 0.0.0.0 0.0.0.0 Gi0/0/0

@@ -209,7 +209,7 @@ int ran port-channel 1-2
 ip dhcp snooping trust
 exit
 
-int ran gi1/0/21 - 24
+int ran port-channel 1-2
 ip dhcp snooping trust
 ip arp inspection trust
 exit

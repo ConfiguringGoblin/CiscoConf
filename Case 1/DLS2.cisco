@@ -115,8 +115,8 @@ switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
 channel-group 2 mode desirable
-no switchport access vlan 1000
 description Link to ALS1.
+no shutdown
 exit
 
 int ran port-channel 2
