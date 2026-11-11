@@ -1,9 +1,7 @@
 enable
 configure terminal
 
-! =========================================
-! BASIC DEVICE CONFIGURATION
-! =========================================
+! Basic configurations
 hostname ALS1
 no ip domain-lookup
 Ip domain-name POD71-ALS1.local
@@ -36,9 +34,7 @@ No unauthorized access!
 spanning-tree portfast bpduguard default
 
 
-! =========================================
-! VLAN config
-! =========================================
+! VLANs
 vlan 10
 name Administration
 exit
@@ -68,9 +64,7 @@ name Blackhole
 exit
 
 
-! =========================================
 ! Management interface
-! =========================================
 int vlan 99
 ip add 192.168.99.6 255.255.255.0
 description Management SVI.
@@ -78,9 +72,8 @@ exit
 
 ip default-gateway 192.168.99.1
 
-! =========================================
-! Close all interfaces
-! =========================================
+
+! Close all interfaces (security)
 int ran gi0/0
 shutdown
 exit
@@ -98,9 +91,7 @@ shutdown
 exit
 
 
-! =========================================
 ! DLS1 link
-! =========================================
 int ran gi1/0/21-22
 channel-group 1 mode desirable
 no switchport access vlan 1000
@@ -118,9 +109,8 @@ switchport nonegotiate
 description Link to DLS1.
 exit
 
-! =========================================
+
 ! DLS2 link
-! =========================================
 int ran gi1/0/23-24
 channel-group 2 mode desirable
 no switchport access vlan 1000
@@ -138,9 +128,7 @@ switchport nonegotiate
 exit
 
 
-! =========================================
-! Configure access interfaces
-! =========================================
+! Device interfaces
 int gi1/0/13
 switchport mode access
 switchport access vlan 10
@@ -174,9 +162,7 @@ switchport nonegotiate
 exit
 
 
-! =========================================
 ! Port security
-! =========================================
 int ran gi1/0/1 - 20
 switchport port-security
 switchport port-security maximum 5
@@ -198,9 +184,7 @@ spanning-tree bpduguard enable
 exit
 
 
-! =========================================
 ! DHCP snooping
-! =========================================
 ip dhcp snooping
 ip dhcp snooping vlan 10,20,30,40
 no ip dhcp snooping information option
@@ -214,9 +198,8 @@ ip dhcp snooping trust
 ip arp inspection trust
 exit
 
-! =========================================
+
 ! DAI
-! =========================================
 ip arp inspection vlan 10,20,30,40
 ip arp inspection validate src-mac
 ip arp inspection validate dst-mac
@@ -226,7 +209,3 @@ no ip dhcp snooping information option
 int ran port-channel 1-2
 ip arp inspection trust
 exit
-
-
-
-

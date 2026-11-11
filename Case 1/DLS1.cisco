@@ -2,9 +2,7 @@ enable
 configure terminal
 
 
-! =========================================
-! BASIC DEVICE CONFIGURATION
-! =========================================
+! Basic configurations
 hostname DLS1
 no ip domain-lookup
 Ip domain-name POD71-DLS1.local
@@ -37,9 +35,7 @@ No unauthorized access!
 spanning-tree portfast bpduguard default
 
 
-! =========================================
-! VLAN config
-! =========================================
+! VLANs
 vlan 10
 name Administration
 exit
@@ -68,13 +64,12 @@ vlan 1000
 name Blackhole
 exit
 
+! Root bridge for VLANs 10, 20 and 40
 spanning-tree vlan 10,20,40 root primary
 spanning-tree vlan 30,99 root secondary
 
 
-! =========================================
 ! Management port
-! =========================================
 int vlan 99
 ip add 192.168.99.4 255.255.255.0
 description Management SVI.
@@ -83,9 +78,7 @@ exit
 ip default-gateway 192.168.99.1
 
 
-! =========================================
-! Close all interfaces
-! =========================================
+! Close all interfaces, for security.
 int ran fa0/1 - 24
 switchport mode access
 switchport access vlan 1000
@@ -93,23 +86,19 @@ shutdown
 exit
 
 
-! =========================================
 ! Trunk port to R2
-! =========================================
 int ran fa0/23
 no switchport access vlan 1000
 switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
-description R2.
+description Link to R2.
 switchport nonegotiate
 no shutdown
 exit
 
 
-! =========================================
 ! Link to ALS1
-! =========================================
 int ran fa0/21-22
 switchport mode trunk
 switchport trunk native vlan 999
@@ -120,7 +109,7 @@ exit
 
 int ran port-channel 1
 no switchport access vlan 1000
-description Link to ALS1.
+description Etherchannel to ALS1.
 switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
@@ -128,10 +117,7 @@ switchport nonegotiate
 exit
 
 
-
-! =========================================
 ! Link to DLS2
-! =========================================
 int ran gi0/1-2 
 description Link to DLS2.
 switchport mode trunk
@@ -144,7 +130,7 @@ exit
 
 int ran port-channel 3
 no switchport access vlan 1000
-description Link to DLS2.
+description Etherchannel to DLS2.
 switchport mode trunk
 switchport trunk native vlan 999
 switchport trunk allowed vlan 10,20,30,40,99
