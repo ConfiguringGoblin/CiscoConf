@@ -88,7 +88,7 @@ exit
 
 
 ! Trunk port to R3
-int ran fa0/23
+int fa0/23
 no switchport access vlan 1000
 switchport mode trunk
 switchport trunk native vlan 999
@@ -109,7 +109,7 @@ description Link to ALS1.
 no shutdown
 exit
 
-int ran port-channel 2
+int port-channel 2
 no switchport access vlan 1000
 description Etherchannel to ALS1.
 switchport mode trunk
@@ -130,7 +130,7 @@ channel-group 3 mode desirable
 no switchport access vlan 1000
 exit
 
-int ran port-channel 3
+int port-channel 3
 no switchport access vlan 1000
 description Etherchannel to DLS2.
 switchport mode trunk
