@@ -79,12 +79,13 @@ int gi0/1.40
 description Drift_og_NOC
 encapsulation dot1Q 40
 ip address 192.168.40.3 255.255.255.0
-ip helper-address 10.0.0.1
+ip helper-address 192.168.202.111 255.255.255.0
 standby version 2
 standby 40 ip 192.168.40.1
 standby 40 priority 100
 standby 40 preempt
 standby 40 track 10 decrement 20
+
 int gi0/1.99
 description Management
 encapsulation dot1Q 99
@@ -96,10 +97,38 @@ standby 99 priority 110
 standby 99 preempt
 standby 99 track 10 decrement 20
 
-int gi0/1.999
-description Native
-encapsulation dot1Q 999 native
-exit
+int gi0/0/1.210
+description PVE_Management
+encapsulation dot1Q 210
+ip address 192.168.202.3 255.255.255.0
+ip helper-address 192.168.202.111 
+standby version 2
+standby 2100 ip 192.168.210.1 255.255.255.0
+standby 2100 priority 100
+standby 2100 preempt
+standby 2100 track 10 decrement 20
+
+int gi0/0/1.201
+description VM_Management
+encapsulation dot1Q 201
+ip address 192.168.201.3 255.255.255.0
+ip helper-address 192.168.202.111 
+standby version 2
+standby 2100 ip 192.168.201.1 255.255.255.0
+standby 2100 priority 100
+standby 2100 preempt
+standby 2100 track 10 decrement 20
+
+int gi0/0/1.202
+description SEC_Management
+encapsulation dot1Q 202
+ip address 192.168.202.3 255.255.255.0
+ip helper-address 192.168.201.111
+standby version 2
+standby 2100 ip 192.168.202.1
+standby 2100 priority 100
+standby 2100 preempt
+standby 2100 track 10 decrement 20
 
 
 ip route 0.0.0.0 0.0.0.0 gi0/0 10.0.0.5
