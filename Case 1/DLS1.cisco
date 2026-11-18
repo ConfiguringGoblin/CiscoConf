@@ -64,6 +64,20 @@ vlan 1000
 name Blackhole
 exit
 
+
+vlan 2100
+name PVE_Management
+exit
+
+vlan 2001
+name VM_Management
+exit
+
+vlan 2002
+name SEC_Management
+exit
+
+
 ! Root bridge for VLANs 10, 20 and 40
 spanning-tree vlan 10,20,40 root primary
 spanning-tree vlan 30,99 root secondary
@@ -86,12 +100,21 @@ shutdown
 exit
 
 
+int fa0/1
+switchport mode trunk
+switchport trunk native vlan 999
+switchport trunk allowed vlan 10,20,30,40,99,2001,2002,2100
+description Link to Server.
+switchport nonegotiate
+no shutdown
+
+
 ! Trunk port to R2
-int ran fa0/23
+int fa0/23
 no switchport access vlan 1000
 switchport mode trunk
 switchport trunk native vlan 999
-switchport trunk allowed vlan 10,20,30,40,99
+switchport trunk allowed vlan 10,20,30,40,99,2001,2100
 description Link to R2.
 switchport nonegotiate
 no shutdown
@@ -102,17 +125,17 @@ exit
 int ran fa0/21-22
 switchport mode trunk
 switchport trunk native vlan 999
-switchport trunk allowed vlan 10,20,30,40,99
+switchport trunk allowed vlan 10,20,30,40,99,2001,2002,2100
 channel-group 1 mode desirable
 description Link to ALS1.
 exit
 
-int ran port-channel 1
+int port-channel 1
 no switchport access vlan 1000
 description Etherchannel to ALS1.
 switchport mode trunk
 switchport trunk native vlan 999
-switchport trunk allowed vlan 10,20,30,40,99
+switchport trunk allowed vlan 10,20,30,40,99,2001,2002,2100
 switchport nonegotiate
 exit
 
@@ -122,17 +145,17 @@ int ran gi0/1-2
 description Link to DLS2.
 switchport mode trunk
 switchport trunk native vlan 999
-switchport trunk allowed vlan 10,20,30,40,99
+switchport trunk allowed vlan 10,20,30,40,99,2001,2002,2100
 switchport nonegotiate
 channel-group 3 mode desirable
 no switchport access vlan 1000
 exit
 
-int ran port-channel 3
+int port-channel 3
 no switchport access vlan 1000
 description Etherchannel to DLS2.
 switchport mode trunk
 switchport trunk native vlan 999
-switchport trunk allowed vlan 10,20,30,40,99
+switchport trunk allowed vlan 10,20,30,40,99,2001,2002,2100
 switchport nonegotiate
 exit

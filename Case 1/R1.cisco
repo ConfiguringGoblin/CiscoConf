@@ -54,8 +54,7 @@ permit 192.168.20.0 0.0.0.255
 permit 192.168.30.0 0.0.0.255
 permit 192.168.40.0 0.0.0.255
 permit 10.0.0.0 0.0.0.15
-permit 192.168.210.0 0.0.0.255
-permit 192.168.201.0 0.0.0.255
+permit 0.0.0.0 255.255.255.255
 exit
 
 ip nat inside source list NAT-TRANSLATE interface Gi0/0/0 overload
