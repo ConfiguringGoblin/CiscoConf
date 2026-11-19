@@ -64,15 +64,15 @@ name Blackhole
 exit
 
 
-vlan 2100
+vlan 210
 name PVE_Management
 exit
 
-vlan 2001
+vlan 201
 name VM_Management
 exit
 
-vlan 2002
+vlan 202
 name SEC_Management
 exit
 
@@ -112,13 +112,13 @@ no switchport access vlan 1000
 description Link to DLS1.
 switchport mode trunk
 switchport trunk native vlan 999
-switchport trunk allowed vlan 10,20,30,40,99,2001,2002,2100
+switchport trunk allowed vlan 10,20,30,40,99,201,202,210
 exit
 
 int port-channel 1
 switchport mode trunk
 switchport trunk native vlan 999
-switchport trunk allowed vlan 10,20,30,40,99,2001,2002,2100
+switchport trunk allowed vlan 10,20,30,40,99,201,202,210
 switchport nonegotiate
 description Etherchannel to DLS1.
 exit
@@ -131,13 +131,13 @@ no switchport access vlan 1000
 description Link to DLS2.
 switchport mode trunk
 switchport trunk native vlan 999
-switchport trunk allowed vlan 10,20,30,40,99,2001,2002,2100
+switchport trunk allowed vlan 10,20,30,40,99,201,202,210
 exit
 
 int port-channel 2
 switchport mode trunk
 switchport trunk native vlan 999
-switchport trunk allowed vlan 10,20,30,40,99,2001,2002,2100
+switchport trunk allowed vlan 10,20,30,40,99,201,202,210
 switchport nonegotiate
 description Etherchannel to DLS2.
 exit
