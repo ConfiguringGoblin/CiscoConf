@@ -46,7 +46,7 @@ int gi0/1.10
 description Administration 
 encapsulation dot1Q 10
 ip address 192.168.10.3 255.255.255.0
-ip helper-address 10.0.0.1
+ip helper-address 10.0.0.5
 standby version 2
 standby 10 ip 192.168.10.1
 standby 10 priority 100
@@ -57,7 +57,7 @@ int gi0/1.20
 description Salg
 encapsulation dot1Q 20
 ip address 192.168.20.3 255.255.255.0
-ip helper-address 10.0.0.1
+ip helper-address 10.0.0.5
 standby version 2
 standby 20 ip 192.168.20.1
 standby 20 priority 100
@@ -68,7 +68,7 @@ int gi0/1.30
 description IT
 encapsulation dot1Q 30
 ip address 192.168.30.3 255.255.255.0
-ip helper-address 10.0.0.1
+ip helper-address 10.0.0.5
 standby version 2
 standby 30 ip 192.168.30.1
 standby 30 priority 110
@@ -79,7 +79,7 @@ int gi0/1.40
 description Drift_og_NOC
 encapsulation dot1Q 40
 ip address 192.168.40.3 255.255.255.0
-ip helper-address 192.168.202.111 255.255.255.0
+ip helper-address 192.168.202.111
 standby version 2
 standby 40 ip 192.168.40.1
 standby 40 priority 100
@@ -90,45 +90,45 @@ int gi0/1.99
 description Management
 encapsulation dot1Q 99
 ip address 192.168.99.3 255.255.255.0
-ip helper-address 10.0.0.1
+ip helper-address 10.0.0.5
 standby version 2
 standby 99 ip 192.168.99.1
 standby 99 priority 110
 standby 99 preempt
 standby 99 track 10 decrement 20
 
-int gi0/0/1.210
+int gi0/1.210
 description PVE_Management
 encapsulation dot1Q 210
-ip address 192.168.202.3 255.255.255.0
+ip address 192.168.210.3 255.255.255.0
 ip helper-address 192.168.202.111 
 standby version 2
-standby 2100 ip 192.168.210.1 255.255.255.0
-standby 2100 priority 100
-standby 2100 preempt
-standby 2100 track 10 decrement 20
+standby 210 ip 192.168.210.1
+standby 210 priority 100
+standby 210 preempt
+standby 210 track 10 decrement 20
 
-int gi0/0/1.201
+int gi0/1.201
 description VM_Management
 encapsulation dot1Q 201
 ip address 192.168.201.3 255.255.255.0
 ip helper-address 192.168.202.111 
 standby version 2
-standby 2100 ip 192.168.201.1 255.255.255.0
-standby 2100 priority 100
-standby 2100 preempt
-standby 2100 track 10 decrement 20
+standby 201 ip 192.168.201.1
+standby 201 priority 100
+standby 201 preempt
+standby 201 track 10 decrement 20
 
-int gi0/0/1.202
+int gi0/1.202
 description SEC_Management
 encapsulation dot1Q 202
 ip address 192.168.202.3 255.255.255.0
 ip helper-address 192.168.201.111
 standby version 2
-standby 2100 ip 192.168.202.1
-standby 2100 priority 100
-standby 2100 preempt
-standby 2100 track 10 decrement 20
+standby 202 ip 192.168.202.1
+standby 202 priority 100
+standby 202 preempt
+standby 202 track 10 decrement 20
 
 
 ip route 0.0.0.0 0.0.0.0 gi0/0 10.0.0.5
