@@ -105,7 +105,7 @@ ip address 192.168.210.2 255.255.255.0
 ip helper-address 192.168.210.111
 standby version 2
 standby 210 ip 192.168.210.1
-standby 210 priority 100
+standby 210 priority 110
 standby 210 preempt
 standby 210 track 10 decrement 20
 
@@ -116,7 +116,7 @@ ip address 192.168.201.2 255.255.255.0
 ip helper-address 192.168.201.111
 standby version 2
 standby 201 ip 192.168.201.1
-standby 201 priority 100
+standby 201 priority 110
 standby 201 preempt
 standby 201 track 10 decrement 20
 
@@ -127,7 +127,7 @@ ip address 192.168.202.2 255.255.255.0
 ip helper-address 192.168.202.111
 standby version 2
 standby 202 ip 192.168.202.1
-standby 202 priority 100
+standby 202 priority 110
 standby 202 preempt
 standby 202 track 10 decrement 20
 
